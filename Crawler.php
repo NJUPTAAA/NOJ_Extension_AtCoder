@@ -69,7 +69,7 @@ class Crawler extends CrawlerBase
                     'oj' => 'atcoder',
                     'follow' => true,
                 ]);
-            } catch (ErrorException $e) {
+            } catch (\Throwable $e) {
                 ++$retry;
                 $this->line("<fg=red>Retrying ($retry/$total)</>");
                 return $this->grab_page($url, $retry, $total);
@@ -156,26 +156,31 @@ class Crawler extends CrawlerBase
                 $dom = $this->grab_page($page);
                 $dom = preg_replace('/([^$])\$([^$])/', '$1$$$$2', $dom);
                 $dom = preg_replace('/([^$])\$([^$])/', '$1$$$$2', $dom); // In case of like $n$, will be replaced to $$$n$ if replaced only once
-                $dom = preg_replace_callback("/< *img([^>]*)src *= *[\"\\']?([^\"\\' >]*)([^>]*)>/si", function ($match) use ($page) {
-                    $href = $match[2];
-                    if (substr($href, 0, 5) == 'data:') { // I don't think this will occur
-                        $path = $href;
-                    } else {
-                        $url = $this->getUrlByPage($page, $href);
-                        $pos1 = strpos($url, 'img');
-                        $pos2 = strpos($url, '/', $pos1 + 3);
-                        $path = $pos1 === false || $pos2 === false ? substr($url, strpos($url, '/', strpos($url, '://') + 3)) : substr($url, $pos2);
-                        if (!in_array($url, $this->downloaded)) {
-                            $fn = base_path("public/external/atcoder$path");
-                            $dirn = substr($fn, 0, strrpos($fn, '/'));
-                            if (!file_exists($dirn)) {
-                                mkdir($dirn, 0644, true);
+                $dom = preg_replace_callback("/< *img([^>]*)src *= *[\"\\']?([^\"\\'>]*)([^>]*)>/si", function ($match) use ($page) {
+                    $href = trim($match[2]);
+                    $_path = null;
+                    if (substr($href, 0, 5) != 'data:') {
+                        try {
+                            $url = $this->getUrlByPage($page, $href);
+                            $pos1 = strpos($url, 'img');
+                            $pos2 = strpos($url, '/', $pos1 + 3);
+                            $path = $pos1 === false || $pos2 === false ? substr($url, strpos($url, '/', strpos($url, '://') + 3)) : substr($url, $pos2);
+                            if (!in_array($url, $this->downloaded)) {
+                                $fn = base_path("public/external/atcoder$path");
+                                $dirn = substr($fn, 0, strrpos($fn, '/'));
+                                if (!file_exists($dirn)) {
+                                    mkdir($dirn, 0644, true);
+                                }
+                                file_put_contents($fn, $this->grab_page($url));
+                                array_push($this->downloaded, $url);
                             }
-                            file_put_contents($fn, $this->grab_page($url));
-                            array_push($this->downloaded, $url);
+                            $_path = $path;
+                        } catch (\Exception $e) {
+                            $this->line("\n  <bg=red;fg=white> Warning </> : <fg=yellow>Failed caching $url: {$e->getMessage()}. Use raw url.</>\n");
                         }
                     }
-                    return "<img{$match[1]}src=\"/external/atcoder$path\"{$match[3]}>";
+                    $path = is_null($_path) ? $href : '/external/atcoder' . $_path;
+                    return "<img{$match[1]}src=\"$path\"{$match[3]}>";
                 }, $dom);
                 $dom = HtmlDomParser::str_get_html($dom, true, true, DEFAULT_TARGET_CHARSET, false);
                 foreach ($dom->find('var') as $var) {
@@ -240,12 +245,20 @@ class Crawler extends CrawlerBase
                             break;
                         }
                     } else if (substr($node->getAttribute('class'), 0, 4) == 'lang' || $node->id == 'task-statement') { // ???
+                        if (count($node->find('.part .part'))) { // like AC814(arc018_4)
+                            $directShow = true;
+                            break;
+                        }
                         foreach ($node->find('.part') as $part) {
                             $sections = $part->find('section');
                             if (!count($sections)) $sections = [$part];
                             foreach ($sections as $section) {
                                 $h3 = $section->find('h3', 0);
-                                if (is_null($h3)) $h3 = $part->find('h3', 0);
+                                $split = true;
+                                if (is_null($h3)) {
+                                    $h3 = $part->find('h3', 0);
+                                    $split = false;
+                                }
                                 if (is_null($h3)) {
                                     if ($sampleNoteFlag !== false) {
                                         if ($this->pro['sample'][$sampleNoteFlag]['sample_note'] != '') {
@@ -262,9 +275,11 @@ class Crawler extends CrawlerBase
                                 $title = $h3->innertext;
                                 if ($title[0] == "\xc2") $title = substr($title, 2); // starts with U+008F or U+0090 // but what is this???
                                 // $header->remove(); // not supported
-                                $parts = explode('</h3>', $section->innertext);
-                                array_shift($parts);
-                                $section->innertext = implode('</h3>', $parts);
+                                if ($split) {
+                                    $parts = explode('</h3>', $section->innertext);
+                                    array_shift($parts);
+                                    $section->innertext = implode('</h3>', $parts);
+                                }
                                 $map = [
                                     'あらすじ' => 'story',
                                     'Story' => 'story',
@@ -302,6 +317,7 @@ class Crawler extends CrawlerBase
                                     '判定' => 'judge',
                                     'Judging' => 'judge',
                                 ];
+                                $unknown = false;
                                 if (isset($map[$title])) {
                                     if (ctype_alpha($title[0]) || $this->pro[$map[$title]] == '') {
                                         $this->pro[$map[$title]] = trim(preg_replace('/<pre>\s*/', '<pre class="tex2jax_process">', $section->innertext));
@@ -310,16 +326,27 @@ class Crawler extends CrawlerBase
                                     if ($title[0] == 'S' || !isset($this->pro['sample'][$match[1] - 1])) {
                                         $this->pro['sample'][$match[1] - 1] = ['sample_input' => trim($section->find('pre', 0)->innertext)];
                                     }
-                                } else if (preg_match('/(?:出力例|Sample Output) *(\d+)/', $title, $match)) {
-                                    if ($title[0] == 'S' || !isset($this->pro['sample'][$match[1] - 1]['sample_output'])) {
+                                    if (preg_match('/<h3>((?:出力例|Sample Output) *\d+)<\/h3>/', $section->innertext, $match)) {
+                                        // var_dump($section->innertext);
+                                        $title = $match[1];
+                                        // $section->innertext = substr($section->innertext, strpos($section->innertext, '</h3>') + 5);
+                                        $section = HtmlDomParser::str_get_html(substr($section->innertext, strpos($section->innertext, '</h3>') + 5),
+                                            true, true, DEFAULT_TARGET_CHARSET, false); // Fuck DomParser full of bugs
+                                    }
+                                } else $unknown = true;
+                                if (preg_match('/(?:出力例|Sample Output) *(\d+)/', $title, $match)) {
+                                    if (!isset($this->pro['sample'][$match[1] - 1])) $this->pro['sample'][$match[1] - 1] = ['sample_input' => null];
+                                    if ($title[0] == 'S' || !isset($this->pro['sample'][$match[1] - 1]['sample_output']) || $this->pro['sample'][$match[1] - 1]['sample_output'] != '') {
                                         $pre = $section->find('pre', 0);
-                                        $this->pro['sample'][$match[1] - 1]['sample_output'] = trim($pre->innertext);
-                                        // $pre->remove();
-                                        $section->innertext = explode('</pre>', $section->innertext)[1];
+                                        if (!is_null($pre)) {
+                                            $this->pro['sample'][$match[1] - 1]['sample_output'] = trim($pre->innertext);
+                                            // $pre->remove();
+                                            $section->innertext = substr($section->innertext, strpos($section->innertext, '</pre>') + 6);
+                                        } else $this->pro['sample'][$match[1] - 1]['sample_output'] = null;
                                         $this->pro['sample'][$match[1] - 1]['sample_note'] = trim($section->innertext);
                                     }
                                     $sampleNoteFlag = $match[1] - 1;
-                                } else {
+                                } else if ($unknown) {
                                     if ($debug = false) { // It's not typo
                                         $this->line("\n  <bg=red;fg=white> Warning </> : <fg=yellow>Unknown section: $title</>\n");
                                     } else {
@@ -345,7 +372,7 @@ class Crawler extends CrawlerBase
                     $this->pro['description'] = trim(preg_replace('/<pre>\s*/', '<pre class="tex2jax_process">', $statement->innertext));
                     $this->pro['input'] = $this->pro['output'] = $this->pro['note'] = '';
                     $this->pro['sample'] = [];
-                    $this->line("\n  <bg=red;fg=white> Warning </> : <fg=yellow>Unknown page format</>\n");
+                    $this->line("\n  <bg=red;fg=white> Warning </> : Unknown page format\n"); // no highlight for it's a common warning
                 }
 
                 $problem = $problemModel->pid($this->pro['pcode']);
@@ -360,7 +387,7 @@ class Crawler extends CrawlerBase
                 // $problemModel->addTags($new_pid, $tag); // not present
 
                 $this->line("<fg=green>${updstr}ed:</>   </>AC$innerId");
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>{$e->getMessage()}</>\n");
                 $this->line($e);
             }
