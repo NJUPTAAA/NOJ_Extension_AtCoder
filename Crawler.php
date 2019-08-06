@@ -48,7 +48,7 @@ class Crawler extends CrawlerBase
             $compiler = new CompilerModel();
             $this->availCompilers = [];
             foreach ($compiler->list($this->oid) as $compiler) {
-                array_push($this->availCompilers, $compiler['lcode']);
+                $this->availCompilers[$compiler['lcode']] = $compiler['coid'];
             }
 
             $this->crawl($con, $action == 'update_problem');
@@ -212,8 +212,9 @@ class Crawler extends CrawlerBase
                 $this->pro['sample'] = [];
                 $compilers = [];
                 foreach ($submit->getElementById('submit-language-selector-' . $innerId)->find('option') as $option) {
-                    array_push($compilers, $option->value);
-                    if (!in_array($option->value, $this->availCompilers)) {
+                    if (isset($this->availCompilers[$option->value])) {
+                        array_push($compilers, $this->availCompilers[$option->value]);
+                    } else {
                         $this->line("\n  <bg=red;fg=white> Warning </> : <fg=yellow>Compiler not present in database: {$option->value} {$option->innertext}</>\n");
                     }
                 }
