@@ -2,8 +2,9 @@
 namespace App\Babel\Extension\atcoder;
 
 use App\Babel\Submit\Curl;
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use App\Models\JudgerModel;
+use KubAT\PhpSimple\HtmlDomParser;
 use Requests;
 use Exception;
 use Log;
@@ -11,71 +12,57 @@ use Log;
 class Judger extends Curl
 {
 
-    public $verdict=[
-        'Accepted'=>"Accepted",
-        "Presentation Error"=>"Presentation Error",
-        'Time Limit Exceeded'=>"Time Limit Exceed",
-        "Memory Limit Exceeded"=>"Memory Limit Exceed",
-        'Wrong Answer'=>"Wrong Answer",
-        'Runtime Error'=>"Runtime Error",
-        'Output Limit Exceeded'=>"Output Limit Exceeded",
-        'Compile Error'=>"Compile Error",
+    public $verdict = [
+        'AC' => 'Accepted',
+        'WA' => 'Wrong Answer',
+        'TLE' => 'Time Limit Exceed',
+        'MLE' => 'Memory Limit Exceed',
+        'RE' => 'Runtime Error',
+        'CE' => 'Compile Error',
+        'QLE' => 'Judge Error', // I didn't found its description
+        'OLE' => 'Output Limit Exceeded',
+        'IE' => 'Judge Error', // Internal Error: There is an internal error within the Judging System.
+        // 'WJ' => 'Waiting for Judging',
+        // 'WR' => 'Waiting for Re-judging',
+        // 'Judging' => 'Judging',
     ];
-    private $model=[];
-    private $template=[];
 
 
     public function __construct()
     {
-        $this->model["submissionModel"]=new SubmissionModel();
-        $this->model["judgerModel"]=new JudgerModel();
+        $this->submissionModel = new SubmissionModel();
     }
 
     public function judge($row)
     {
         $sub=[];
 
-        if (!isset($this->poj[$row['remote_id']])) {
-            $judgerDetail=$this->model["judgerModel"]->detail($row['jid']);
-            $this->appendPOJStatus($judgerDetail['handle'], $row['remote_id']);
-            if (!isset($this->poj[$row['remote_id']])) {
-                return;
+        $remoteId = explode('/', $row['remote_id']);
+        $dom = HtmlDomParser::file_get_html("https://atcoder.jp/contests/$remoteId[0]/submissions/$remoteId[1]?lang=en", false, null, 0, -1, true, true, DEFAULT_TARGET_CHARSET, false);
+
+        foreach ($dom->find('table', 0)->find('th') as $th) {
+            switch ($th->innertext) {
+                case 'Status':
+                    $verdict = $th->next_sibling()->children[0]->innertext;
+                    if (!isset($this->verdict[$verdict])) return;
+                    $sub['verdict'] = $this->verdict[$verdict];
+                    $sub['score'] = $verdict == 'AC' ? 1 : 0;
+                    break;
+                case 'Exec Time':
+                    if (!preg_match('/^(\d+) ms$/', $th->next_sibling()->innertext, $match)) throw new Exception('time format error');
+                    $sub['time'] = $match[1];
+                    break;
+                case 'Memory':
+                    if (!preg_match('/^(\d+) KB$/', $th->next_sibling()->innertext, $match)) throw new Exception('memory format error');
+                    $sub['memory'] = $match[1];
+                    break;
             }
         }
 
-        $status=$this->poj[$row['remote_id']];
-        $sub['verdict']=$this->verdict[$status['verdict']];
-
-        if ($sub['verdict']=='Compile Error') {
-            try {
-                $res=Requests::get('http://poj.org/showcompileinfo?solution_id='.$row['remote_id']);
-                preg_match('/<pre>([\s\S]*)<\/pre>/', $res->body, $match);
-                $sub['compile_info']=html_entity_decode($match[1], ENT_QUOTES);
-            } catch (Exception $e) {
-            }
+        if (!is_null($compileInfo = $dom->find('pre', 1))) {
+            $sub['compile_info'] = html_entity_decode($compileInfo->innertext);
         }
 
-        $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
-        $sub['time']=$status['time'];
-        $sub['memory']=$status['memory'];
-        $sub['remote_id']=$row['remote_id'];
-
-        $this->model["submissionModel"]->updateSubmission($row['sid'], $sub);
-    }
-
-    private function appendPOJStatus($judger, $first=null)
-    {
-        if ($first!==null) {
-            $first++;
-        }
-        $res=Requests::get("http://poj.org/status?user_id={$judger}&top={$first}");
-        $rows=preg_match_all('/<tr align=center><td>(\d+)<\/td><td>.*?<\/td><td>.*?<\/td><td>.*?<font color=.*?>(.*?)<\/font>.*?<\/td><td>(\d*)K?<\/td><td>(\d*)(?:MS)?<\/td>/', $res->body, $matches);
-        for ($i=0; $i<$rows; $i++) {
-            $this->poj[$matches[1][$i]]=[
-                'verdict'=>$matches[2][$i],
-                'memory'=>$matches[3][$i] ? $matches[3][$i] : 0,
-                'time'=>$matches[4][$i] ? $matches[4][$i] : 0,
-            ];
-        }
+        $this->submissionModel->updateSubmission($row['sid'], $sub);
     }
 }
