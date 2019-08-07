@@ -3,9 +3,12 @@ namespace App\Babel\Extension\atcoder;
 
 use App\Babel\Submit\Curl;
 use App\Models\CompilerModel;
+use App\Models\ProblemModel;
 use App\Models\JudgerModel;
 use App\Models\OJModel;
+use KubAT\PhpSimple\HtmlDomParser;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 use Requests;
 
 class Submitter extends Curl
@@ -20,7 +23,7 @@ class Submitter extends Curl
         $this->sub=& $sub;
         $this->post_data=$all_data;
         $judger=new JudgerModel();
-        $this->oid=OJModel::oid('template');
+        $this->oid=OJModel::oid('atcoder');
         if(is_null($this->oid)) {
             throw new Exception("Online Judge Not Found");
         }
@@ -30,58 +33,84 @@ class Submitter extends Curl
 
     private function _login()
     {
-        $response=$this->grab_page([
-            "site"=>'http://poj.org',
-            "oj"=>'poj',
-            "handle"=>$this->selectedJudger["handle"]
-        ]);
-        if (strpos($response, 'Log Out')===false) {
-            $params=[
-                'user_id1' => $this->selectedJudger["handle"],
-                'password1' => $this->selectedJudger["password"],
-                'B1' => 'login',
-            ];
+        /* // Version 1
+        $cookieFile = babel_path('Cookies/atcoder_' . $this->selectedJudger['handle'] . '.cookie');
+        if (!file_exists($cookieFile) || !preg_match('/(\d+)\t_user_name\t(.*)/', file_get_contents($cookieFile), $match) || $match[1] < time() - 60 || $match[2] == 'deleted') {
             $this->login([
-                "url"=>'http://poj.org/login',
-                "data"=>http_build_query($params),
-                "oj"=>'poj',
-                "ret"=>true,
-                "handle"=>$this->selectedJudger["handle"]
+                'url' => 'https://' . $this->problem['contest_id'] . '.contest.atcoder.jp/login',
+                'data' => http_build_query([
+                    'name' => $this->selectedJudger["handle"],
+                    'password' => $this->selectedJudger["password"],
+                ]),
+                'oj' => 'atcoder',
+                'handle' => $this->selectedJudger['handle'],
+            ]);
+        }
+        // */
+        $response = $this->grab_page([
+            'site' => 'https://atcoder.jp/login',
+            'oj' => 'atcoder',
+            'handle' => $this->selectedJudger['handle'],
+        ]);
+        preg_match('/name="csrf_token" value="(.*?)"/', $response, $match);
+        $this->csrfToken = str_replace('&#43;', '+', $match[1]);
+        if (preg_match('/userScreenName = ""/', $response)) {
+            $this->login([
+                'url' => 'https://atcoder.jp/login',
+                'data' => http_build_query([
+                    'username' => $this->selectedJudger['handle'],
+                    'password' => $this->selectedJudger['password'],
+                    'csrf_token' => $this->csrfToken,
+                ]),
+                'oj' => 'atcoder',
+                'handle' => $this->selectedJudger['handle'],
+                'ret' => true,
             ]);
         }
     }
 
+    private function formatSolution($solution)
+    {
+        return trim(str_replace("\r", "\n", str_replace("\r\n", "\n", $solution)));
+    }
+
     private function _submit()
     {
-        $params=[
-            'problem_id' => $this->post_data['iid'],
-            'language' => $this->post_data['lang'],
-            'source' => base64_encode($this->post_data["solution"]),
-            'encoded' => 1, // Optional, but sometimes base64 seems smaller than url encode
-        ];
-
-        $response=$this->post_data([
-            "site"=>"http://poj.org/submit",
-            "data"=>http_build_query($params),
-            "oj"=>"poj",
-            "ret"=>true,
-            "follow"=>false,
-            "returnHeader"=>true,
-            "postJson"=>false,
-            "extraHeaders"=>[],
-            "handle"=>$this->selectedJudger["handle"]
+        $solution = $this->formatSolution($this->post_data["solution"]);
+        $problem = $this->problem;
+        $compiler = new CompilerModel();
+        $response = $this->post_data([
+            'site' => "https://atcoder.jp/contests/$problem[contest_id]/submit?lang=en",
+            'data' => http_build_query([
+                'data.TaskScreenName' => $problem['index_id'],
+                'data.LanguageId' => $compiler->detail($this->post_data['coid'])['lcode'],
+                'sourceCode' => $solution,
+                'csrf_token' => $this->csrfToken,
+            ]),
+            'oj' => 'atcoder',
+            'ret' => true,
+            'follow' => true,
+            'handle' => $this->selectedJudger['handle'],
         ]);
 
-        if (!preg_match('/Location: .*\/status/', $response, $match)) {
-            $this->sub['verdict']='Submission Error';
-        } else {
-            $res=Requests::get('http://poj.org/status?problem_id='.$this->post_data['iid'].'&user_id='.urlencode($this->selectedJudger["handle"]));
-            if (!preg_match('/<tr align=center><td>(\d+)<\/td>/', $res->body, $match)) {
-                $this->sub['verdict']='Submission Error';
-            } else {
-                $this->sub['remote_id']=$match[1];
+        if (strpos($response, '<title>My Submissions') !== false) {
+            $sha1 = sha1($solution);
+            preg_match_all('/submissions\/(\d+)/', $response, $matches);
+            foreach ($matches[1] as $remoteId) {
+                $dom = HtmlDomParser::str_get_html($this->grab_page([
+                    'site' => "https://atcoder.jp/contests/$problem[contest_id]/submissions/$remoteId",
+                    'oj' => 'atcoder',
+                    'handle' => $this->selectedJudger['handle'],
+                ]), true, true, DEFAULT_TARGET_CHARSET, false);
+                if (sha1($this->formatSolution(html_entity_decode($dom->getElementById('submission-code')->innertext))) === $sha1) {
+                    $this->sub['remote_id'] = $problem['contest_id'] . '/' . $remoteId;
+                    // Longest contest id is 'Recruit-Programing-contest-practice', $contest_id/submissions/$remoteId may longer than 50
+                    return;
+                }
             }
         }
+        sleep(1);
+        throw new Exception('Submission Error');
     }
 
     public function submit()
@@ -89,7 +118,6 @@ class Submitter extends Curl
         $validator=Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'coid' => 'required|integer',
-            'iid' => 'required|integer',
             'solution' => 'required',
         ]);
 
@@ -97,6 +125,9 @@ class Submitter extends Curl
             $this->sub['verdict']="System Error";
             return;
         }
+
+        $problem = new ProblemModel();
+        $this->problem = $problem->basic($this->post_data['pid']);
 
         $this->_login();
         $this->_submit();

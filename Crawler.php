@@ -14,7 +14,6 @@ use Exception;
 class Crawler extends CrawlerBase
 {
     public $oid = null;
-    public $prefix = "AtCoder";
     private $availCompilers;
     private $downloaded = []; // Download same img or pdf once in one crawl task
     /**
