@@ -221,6 +221,8 @@ class Crawler extends CrawlerBase
                 $this->pro['note'] = '';
                 $this->pro['source'] = $contestTitle;
                 $this->pro['sample'] = [];
+                $this->pro['file'] = 0;
+                $this->pro['file_url'] = null;
                 $compilers = [];
                 foreach ($submit->getElementById('submit-language-selector-' . $innerId)->find('option') as $option) {
                     if (isset($this->availCompilers[$option->value])) {
@@ -237,7 +239,8 @@ class Crawler extends CrawlerBase
                 foreach ($statement->children() as $node) {
                     if ($node->tag == 'p') { // PDF
                         $a = $node->find('a', 0);
-                        if ($a) {
+                        if ($a && substr($a->href, -4) == '.pdf') {
+                            // maybe won't occur any more?
                             $pdf = $a->href;
                             $path = '/external/atcoder';
                             $local = "public$path";
@@ -250,7 +253,8 @@ class Crawler extends CrawlerBase
                                 file_put_contents(base_path($local . $fn), $this->grab_page($this->getUrlByPage("https://atcoder.jp/contests/$con/tasks/$iid", $pdf)));
                                 array_push($this->downloaded, $pdf);
                             }
-                            $this->pro['description'] = "<a href=\"$path$fn\">{$a->innertext}</a>";
+                            $this->pro['file'] = 1;
+                            $this->pro['file_url'] = $path . $fn;
                             break;
                         } else {
                             $directShow = true;
