@@ -223,6 +223,27 @@ class Crawler extends CrawlerBase
                 $this->pro['sample'] = [];
                 $this->pro['file'] = 0;
                 $this->pro['file_url'] = null;
+                foreach ($dom->find('a') as $a) {
+                    if (preg_match('/^(.*?)(#.*)?$/', $a->href, $match)) {
+                        if (strlen($match[1]) >= 4 && substr($match[1], -4) == '.pdf') {
+                            $pdf = $match[1];
+                            $path = '/external/atcoder';
+                            $local = "public$path";
+                            $fn = substr($pdf, strrpos($pdf, '/'));
+                            if (!in_array($pdf, $this->downloaded)) {
+                                if (!file_exists($local)) {
+                                    $this->mkdirs($local);
+                                }
+                                $this->line($this->getUrlByPage("https://atcoder.jp/contests/$con/tasks/$iid", $pdf));
+                                file_put_contents(base_path($local . $fn), $this->grab_page($this->getUrlByPage("https://atcoder.jp/contests/$con/tasks/$iid", $pdf)));
+                                array_push($this->downloaded, $pdf);
+                            }
+                            $this->pro['file'] = 1;
+                            $this->pro['file_url'] = $path . $fn;
+                            if (isset($match[2])) $this->pro['file_url'] .= $match[2];
+                        }
+                    }
+                }
                 $compilers = [];
                 foreach ($submit->getElementById('submit-language-selector-' . $innerId)->find('option') as $option) {
                     if (isset($this->availCompilers[$option->value])) {
@@ -289,6 +310,10 @@ class Crawler extends CrawlerBase
                                 }
                                 $sampleNoteFlag = false;
                                 $title = $h3->innertext;
+                                if ($title == '') {
+                                    $directShow = true;
+                                    break;
+                                }
                                 if ($title[0] == "\xc2") $title = substr($title, 2); // starts with U+008F or U+0090 // but what is this???
                                 // $header->remove(); // not supported
                                 if ($split) {
