@@ -59,6 +59,18 @@ class Crawler extends CrawlerBase
         // TODO
     }
 
+    private function mkdirs($path)
+    {
+        if ($path[strlen($path) - 1] != '/') $path .= '/';
+        $pos = strpos($path, '/');
+        while ($pos !== false) {
+            if (!file_exists(substr($path, 0, $pos))) {
+                mkdir(substr($path, 0, $pos), 0755);
+            }
+            $pos = strpos($path, '/', $pos + 1);
+        }
+    }
+
     private function grab_page($url, $retry = 0, $total = 3)
     {
         if ($retry < $total) {
@@ -165,12 +177,12 @@ class Crawler extends CrawlerBase
                             $pos2 = strpos($url, '/', $pos1 + 3);
                             $path = $pos1 === false || $pos2 === false ? substr($url, strpos($url, '/', strpos($url, '://') + 3)) : substr($url, $pos2);
                             if (!in_array($url, $this->downloaded)) {
-                                $fn = base_path("public/external/atcoder$path");
+                                $fn = "public/external/atcoder$path";
                                 $dirn = substr($fn, 0, strrpos($fn, '/'));
                                 if (!file_exists($dirn)) {
-                                    mkdir($dirn, 0644, true);
+                                    $this->mkdirs($dirn);
                                 }
-                                file_put_contents($fn, $this->grab_page($url));
+                                file_put_contents(base_path($fn), $this->grab_page($url));
                                 array_push($this->downloaded, $url);
                             }
                             $_path = $path;
@@ -232,7 +244,7 @@ class Crawler extends CrawlerBase
                             $fn = substr($pdf, strrpos($pdf, '/'));
                             if (!in_array($pdf, $this->downloaded)) {
                                 if (!file_exists($local)) {
-                                    mkdir($local, 0644, true);
+                                    $this->mkdirs($local);
                                 }
                                 $this->line($this->getUrlByPage("https://atcoder.jp/contests/$con/tasks/$iid", $pdf));
                                 file_put_contents(base_path($local . $fn), $this->grab_page($this->getUrlByPage("https://atcoder.jp/contests/$con/tasks/$iid", $pdf)));
