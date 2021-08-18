@@ -127,11 +127,11 @@ class Crawler extends CrawlerBase
     {
         $updstr = $incremental ? 'Updat' : 'Crawl';
         $this->line("<fg=yellow>${updstr}ing contest $con.</>");
-        $page = $this->grab_page("https://$con.contest.atcoder.jp/submit");
+        $page = $this->grab_page("https://atcoder.jp/contests/$con/submit");
         if (strpos($page, 'Forgot your password?') !== false) {
             $pageDom = HtmlDomParser::str_get_html($page, true, true, DEFAULT_TARGET_CHARSET, false);
             $this->login($pageDom->find('input[name=csrf_token]', 0)->value);
-            $page = $this->grab_page("https://$con.contest.atcoder.jp/submit");
+            $page = $this->grab_page("https://atcoder.jp/contests/$con/submit");
         }
         $submit = HtmlDomParser::str_get_html($page);
         $innerIDs = [];
@@ -161,8 +161,7 @@ class Crawler extends CrawlerBase
                     continue;
                 }
                 $this->line("<fg=yellow>${updstr}ing:</>   AC$innerId");
-                // $page = "https://$con.contest.atcoder.jp/tasks/{$con}_$iid";
-                $page = "https://atcoder.jp/contests/$con/tasks/$iid?lang=en";
+                $page = "https://atcoder.jp/contests/$con/tasks/$innerId?lang=en";
                 $dom = $this->grab_page($page);
                 $dom = preg_replace('/([^$])\$([^$])/', '$1$$$$2', $dom);
                 $dom = preg_replace('/([^$])\$([^$])/', '$1$$$$2', $dom); // In case of like $n$, will be replaced to $$$n$ if replaced only once
