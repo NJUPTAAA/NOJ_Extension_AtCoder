@@ -135,9 +135,9 @@ class Crawler extends CrawlerBase
         }
         $submit = HtmlDomParser::str_get_html($page);
         $innerIDs = [];
-        $selector = $submit->getElementById('submit-task-selector');
+        $selector = $submit->getElementById('select-task');
         if (is_null($selector)) {
-            $this->line("\n  <bg=red;fg=white> Warning </> : <fg=yellow>Not permission</>\n"); // wtf19
+            $this->line("\n  <bg=red;fg=white> Warning </> : <fg=yellow>No Permission</>\n"); // wtf19
             return;
         }
         foreach ($selector->find('option') as $option) {
