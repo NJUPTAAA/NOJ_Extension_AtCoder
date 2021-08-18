@@ -144,7 +144,7 @@ class Crawler extends CrawlerBase
             $text = $option->innertext;
             $innerIDs[substr($text, 0, strpos($text, ' - '))] = $option->value;
         }
-        $contestTitle = $submit->find('.contest-name', 0)->innertext;
+        $contestTitle = $submit->find('.contest-title', 0)->innertext;
         $tasks = [];
         $task = HtmlDomParser::str_get_html($this->grab_page("https://$con.contest.atcoder.jp/assignments"));
         foreach ($task->find("tr") as $tr) {
