@@ -92,13 +92,14 @@ class Crawler extends CrawlerBase
         ]);
     }
 
-    private function login($con)
+    private function login($csrf)
     {
         $this->curl->login([
-            'url' => "https://$con.contest.atcoder.jp/login",
+            'url' => "https://atcoder.jp/login",
             'data' => http_build_query([
-                'name' => $this->judger['handle'],
+                'username' => $this->judger['handle'],
                 'password' => $this->judger['password'],
+                'csrf_token' => $csrf,
             ]),
             'oj' => 'atcoder',
         ]);
@@ -128,11 +129,9 @@ class Crawler extends CrawlerBase
         $this->line("<fg=yellow>${updstr}ing contest $con.</>");
         $page = $this->grab_page("https://$con.contest.atcoder.jp/submit");
         if (strpos($page, 'Forgot your password?') !== false) {
-            $this->login($con);
-            $page = $this->grab_page([
-                'site' => "https://$con.contest.atcoder.jp/submit",
-                'oj' => 'atcoder',
-            ]);
+            $pageDom = HtmlDomParser::str_get_html($page, true, true, DEFAULT_TARGET_CHARSET, false);
+            $this->login($pageDom->find('input[name=csrf_token]', 0)->value);
+            $page = $this->grab_page("https://$con.contest.atcoder.jp/submit");
         }
         $submit = HtmlDomParser::str_get_html($page);
         $innerIDs = [];
