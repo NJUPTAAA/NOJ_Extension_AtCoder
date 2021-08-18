@@ -142,20 +142,12 @@ class Crawler extends CrawlerBase
         }
         foreach ($selector->find('option') as $option) {
             $text = $option->innertext;
-            $innerIDs[substr($text, 0, strpos($text, ' - '))] = $option->value;
+            $tempTitle = explode(' - ', $text, 2)[1];
+            $innerIDs[$tempTitle] = $option->value;
         }
         $contestTitle = $submit->find('.contest-title', 0)->innertext;
-        $tasks = [];
-        $task = HtmlDomParser::str_get_html($this->grab_page("https://$con.contest.atcoder.jp/assignments"));
-        foreach ($task->find("tr") as $tr) {
-            $td = $tr->find('td', 0);
-            if ($td) {
-                $a = $td->find('a', 0);
-                $tasks[substr($a->href, 7)] = $innerIDs[$a->innertext];
-            }
-        }
         $problemModel = new ProblemModel();
-        foreach ($tasks as $iid => $innerId) {
+        foreach ($innerIDs as $title => $innerId) {
             try {
                 if ($incremental && !empty($problemModel->basic($problemModel->pid('AC' . $innerId)))) {
                     continue;
@@ -199,14 +191,13 @@ class Crawler extends CrawlerBase
                 $this->pro['pcode'] = 'AC' . $innerId;
                 $this->pro['OJ'] = $this->oid;
                 $this->pro['contest_id'] = $con;
-                $this->pro['index_id'] = $iid;
-                $this->pro['origin'] = "https://$con.contest.atcoder.jp/tasks/$iid"; // Or https://atcoder.jp/contests/$con/tasks/{$con}_$iid
-                $title = $dom->find('span.h2', 0);
-                $this->pro['title'] = $title->innertext;
-                preg_match('/(\d+).*?(m?sec).*?(\d+).*?([KM]B)/', $title->next_sibling()->next_sibling()->innertext, $match);
-                $this->pro['time_limit'] = $match[1] * ($match[2] == 'sec' ? 1000 : 1);
-                $this->pro['memory_limit'] = $match[3] * ($match[4] == 'MB' ? 1024 : 1);
-                $this->pro['solved_count'] = 0; // Not present?
+                $this->pro['index_id'] = $innerId;
+                $this->pro['origin'] = "https://atcoder.jp/contests/$con/tasks/$innerId";
+                $this->pro['title'] = $title;
+                [$timeLimit, $memoryLimit] = sscanf($dom->find(".col-sm-12 p", 0)->plaintext, "Time Limit: %d sec / Memory Limit: %d MB");
+                $this->pro['time_limit'] = $timeLimit * 1000;
+                $this->pro['memory_limit'] = $memoryLimit * 1024;
+                $this->pro['solved_count'] = -1;
                 $this->pro['input_type'] = 'standard input';
                 $this->pro['output_type'] = 'standard output';
                 $this->pro['story'] = '';
