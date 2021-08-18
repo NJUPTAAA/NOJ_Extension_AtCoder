@@ -165,32 +165,32 @@ class Crawler extends CrawlerBase
                 $dom = $this->grab_page($page);
                 $dom = preg_replace('/([^$])\$([^$])/', '$1$$$$2', $dom);
                 $dom = preg_replace('/([^$])\$([^$])/', '$1$$$$2', $dom); // In case of like $n$, will be replaced to $$$n$ if replaced only once
-                $dom = preg_replace_callback("/< *img([^>]*)src *= *[\"\\']?([^\"\\'>]*)([^>]*)>/si", function ($match) use ($page) {
-                    $href = trim($match[2]);
-                    $_path = null;
-                    if (substr($href, 0, 5) != 'data:') {
-                        try {
-                            $url = $this->getUrlByPage($page, $href);
-                            $pos1 = strpos($url, 'img');
-                            $pos2 = strpos($url, '/', $pos1 + 3);
-                            $path = $pos1 === false || $pos2 === false ? substr($url, strpos($url, '/', strpos($url, '://') + 3)) : substr($url, $pos2);
-                            if (!in_array($url, $this->downloaded)) {
-                                $fn = "public/external/atcoder$path";
-                                $dirn = substr($fn, 0, strrpos($fn, '/'));
-                                if (!file_exists($dirn)) {
-                                    $this->mkdirs($dirn);
-                                }
-                                file_put_contents(base_path($fn), $this->grab_page($url));
-                                array_push($this->downloaded, $url);
-                            }
-                            $_path = $path;
-                        } catch (\Exception $e) {
-                            $this->line("\n  <bg=red;fg=white> Warning </> : <fg=yellow>Failed caching $url: {$e->getMessage()}. Use raw url.</>\n");
-                        }
-                    }
-                    $path = is_null($_path) ? $href : '/external/atcoder' . $_path;
-                    return "<img{$match[1]}src=\"$path\"{$match[3]}>";
-                }, $dom);
+                // $dom = preg_replace_callback("/< *img([^>]*)src *= *[\"\\']?([^\"\\'>]*)([^>]*)>/si", function ($match) use ($page) {
+                //     $href = trim($match[2]);
+                //     $_path = null;
+                //     if (substr($href, 0, 5) != 'data:') {
+                //         try {
+                //             $url = $this->getUrlByPage($page, $href);
+                //             $pos1 = strpos($url, 'img');
+                //             $pos2 = strpos($url, '/', $pos1 + 3);
+                //             $path = $pos1 === false || $pos2 === false ? substr($url, strpos($url, '/', strpos($url, '://') + 3)) : substr($url, $pos2);
+                //             if (!in_array($url, $this->downloaded)) {
+                //                 $fn = "public/external/atcoder$path";
+                //                 $dirn = substr($fn, 0, strrpos($fn, '/'));
+                //                 if (!file_exists($dirn)) {
+                //                     $this->mkdirs($dirn);
+                //                 }
+                //                 file_put_contents(base_path($fn), $this->grab_page($url));
+                //                 array_push($this->downloaded, $url);
+                //             }
+                //             $_path = $path;
+                //         } catch (\Exception $e) {
+                //             $this->line("\n  <bg=red;fg=white> Warning </> : <fg=yellow>Failed caching $url: {$e->getMessage()}. Use raw url.</>\n");
+                //         }
+                //     }
+                //     $path = is_null($_path) ? $href : '/external/atcoder' . $_path;
+                //     return "<img{$match[1]}src=\"$path\"{$match[3]}>";
+                // }, $dom);
                 $dom = HtmlDomParser::str_get_html($dom, true, true, DEFAULT_TARGET_CHARSET, false);
                 foreach ($dom->find('var') as $var) {
                     $text = $var->innertext;
