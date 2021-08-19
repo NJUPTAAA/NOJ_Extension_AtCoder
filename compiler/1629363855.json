@@ -52,7 +52,7 @@
             "code": "4007",
             "compability": "shellscript",
             "language": "shellscript",
-            "icon": "",
+            "icon": "devicon-bash-plain",
             "display": "Bash (5.0.11)",
             "method": "add"
         },
@@ -100,7 +100,7 @@
             "code": "4013",
             "compability": "lisp",
             "language": "clojure",
-            "icon": "",
+            "icon": "devicon-clojure-plain",
             "display": "Clojure (1.10.1.536)",
             "method": "add"
         },
@@ -108,7 +108,7 @@
             "code": "4014",
             "compability": "crystal",
             "language": "crystal",
-            "icon": "",
+            "icon": "devicon-crystal-original",
             "display": "Crystal (0.33.0)",
             "method": "add"
         },
@@ -138,33 +138,33 @@
         },
         {
             "code": "4018",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "dart",
+            "language": "dart",
+            "icon": "devicon-dart-plain",
             "display": "Dart (2.7.2)",
             "method": "add"
         },
         {
             "code": "4019",
-            "compability": "",
-            "language": "",
+            "compability": "dc",
+            "language": "dc",
             "icon": "",
             "display": "dc (1.4.1)",
             "method": "add"
         },
         {
             "code": "4020",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "erlang",
+            "language": "erlang",
+            "icon": "devicon-erlang-plain",
             "display": "Erlang (22.3)",
             "method": "add"
         },
         {
             "code": "4021",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "elixir",
+            "language": "elixir",
+            "icon": "devicon-elixir-plain",
             "display": "Elixir (1.10.2)",
             "method": "add"
         },
@@ -172,7 +172,7 @@
             "code": "4022",
             "compability": "ml",
             "language": "fsharp",
-            "icon": "",
+            "icon": "devicon-fsharp-plain",
             "display": "F# (.NET Core 3.1.201)",
             "method": "add"
         },
@@ -180,7 +180,7 @@
             "code": "4023",
             "compability": "ml",
             "language": "fsharp",
-            "icon": "",
+            "icon": "devicon-fsharp-plain",
             "display": "F# (Mono 10.2.3)",
             "method": "add"
         },
@@ -212,23 +212,23 @@
             "code": "4027",
             "compability": "haskell",
             "language": "haskell",
-            "icon": "",
+            "icon": "devicon-haskell-plain",
             "display": "Haskell (GHC 8.8.3)",
             "method": "add"
         },
         {
             "code": "4028",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "javascript",
+            "language": "javascript",
+            "icon": "devicon-haxe-plain",
             "display": "Haxe (4.0.3); js",
             "method": "add"
         },
         {
             "code": "4029",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "java",
+            "language": "java",
+            "icon": "devicon-haxe-plain",
             "display": "Haxe (4.0.3); Java",
             "method": "add"
         },
@@ -244,7 +244,7 @@
             "code": "4031",
             "compability": "julia",
             "language": "julia",
-            "icon": "",
+            "icon": "devicon-julia-plain",
             "display": "Julia (1.4.0)",
             "method": "add"
         },
@@ -252,15 +252,15 @@
             "code": "4032",
             "compability": "kotlin",
             "language": "kotlin",
-            "icon": "",
+            "icon": "devicon-kotlin-plain",
             "display": "Kotlin (1.3.71)",
             "method": "add"
         },
         {
             "code": "4033",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "lua",
+            "language": "lua",
+            "icon": "devicon-lua-plain",
             "display": "Lua (Lua 5.3.5)",
             "method": "add"
         },
@@ -268,7 +268,7 @@
             "code": "4034",
             "compability": "lua",
             "language": "lua",
-            "icon": "",
+            "icon": "devicon-lua-plain",
             "display": "Lua (LuaJIT 2.1.0)",
             "method": "add"
         },
@@ -276,7 +276,7 @@
             "code": "4035",
             "compability": "shellscript",
             "language": "shellscript",
-            "icon": "",
+            "icon": "devicon-bash-plain",
             "display": "Dash (0.5.8)",
             "method": "add"
         },
@@ -308,7 +308,7 @@
             "code": "4039",
             "compability": "ml",
             "language": "caml",
-            "icon": "",
+            "icon": "devicon-ocaml-plain",
             "display": "OCaml (4.10.0)",
             "method": "add"
         },
@@ -332,14 +332,14 @@
             "code": "4042",
             "compability": "perl",
             "language": "perl",
-            "icon": "",
+            "icon": "devicon-perl-plain",
             "display": "Perl (5.26.1)",
             "method": "add"
         },
         {
             "code": "4043",
-            "compability": "",
-            "language": "",
+            "compability": "perl",
+            "language": "perl",
             "icon": "",
             "display": "Raku (Rakudo 2020.02.1)",
             "method": "add"
@@ -354,8 +354,8 @@
         },
         {
             "code": "4045",
-            "compability": "",
-            "language": "",
+            "compability": "prolog",
+            "language": "prolog",
             "icon": "",
             "display": "Prolog (SWI-Prolog 8.0.3)",
             "method": "add"
@@ -378,8 +378,8 @@
         },
         {
             "code": "4048",
-            "compability": "",
-            "language": "",
+            "compability": "lisp",
+            "language": "lisp",
             "icon": "",
             "display": "Racket (7.6)",
             "method": "add"
@@ -404,7 +404,7 @@
             "code": "4051",
             "compability": "java",
             "language": "scala",
-            "icon": "",
+            "icon": "devicon-scala-plain",
             "display": "Scala (2.13.1)",
             "method": "add"
         },
@@ -444,7 +444,7 @@
             "code": "4056",
             "compability": "plaintext",
             "language": "plaintext",
-            "icon": "",
+            "icon": "devicon-vim-plain",
             "display": "Text (cat 8.28)",
             "method": "add"
         },
@@ -498,8 +498,8 @@
         },
         {
             "code": "4063",
-            "compability": "",
-            "language": "",
+            "compability": "ada",
+            "language": "ada",
             "icon": "",
             "display": "Ada2012 (GNAT 9.2.1)",
             "method": "add"
@@ -514,8 +514,8 @@
         },
         {
             "code": "4065",
-            "compability": "",
-            "language": "",
+            "compability": "python",
+            "language": "python",
             "icon": "",
             "display": "Cython (0.29.16)",
             "method": "add"
@@ -530,9 +530,9 @@
         },
         {
             "code": "4067",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "plaintext",
+            "language": "plaintext",
+            "icon": "devicon-vim-plain",
             "display": "Vim (8.2.0460)",
             "method": "add"
         }
