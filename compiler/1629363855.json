@@ -50,16 +50,16 @@
         },
         {
             "code": "4007",
-            "compability": "shellscript",
-            "language": "shellscript",
+            "compability": "shell",
+            "language": "shell",
             "icon": "devicon-bash-plain",
             "display": "Bash (5.0.11)",
             "method": "add"
         },
         {
             "code": "4008",
-            "compability": "",
-            "language": "",
+            "compability": "bc",
+            "language": "bc",
             "icon": "",
             "display": "bc (1.07.1)",
             "method": "add"
@@ -186,8 +186,8 @@
         },
         {
             "code": "4024",
-            "compability": "",
-            "language": "",
+            "compability": "forth",
+            "language": "forth",
             "icon": "",
             "display": "Forth (gforth 0.7.3)",
             "method": "add"
@@ -274,8 +274,8 @@
         },
         {
             "code": "4035",
-            "compability": "shellscript",
-            "language": "shellscript",
+            "compability": "shell",
+            "language": "shell",
             "icon": "devicon-bash-plain",
             "display": "Dash (0.5.8)",
             "method": "add"
@@ -466,24 +466,24 @@
         },
         {
             "code": "4059",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "shell",
+            "language": "shell",
+            "icon": "devicon-bash-plain",
             "display": "Zsh (5.4.2)",
             "method": "add"
         },
         {
             "code": "4060",
-            "compability": "",
-            "language": "",
+            "compability": "cobol",
+            "language": "cobol",
             "icon": "",
             "display": "COBOL - Fixed (OpenCOBOL 1.1.0)",
             "method": "add"
         },
         {
             "code": "4061",
-            "compability": "",
-            "language": "",
+            "compability": "cobol",
+            "language": "cobol",
             "icon": "",
             "display": "COBOL - Free (OpenCOBOL 1.1.0)",
             "method": "add"
