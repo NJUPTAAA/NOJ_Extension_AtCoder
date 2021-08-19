@@ -2,56 +2,56 @@
     "modifications": [
         {
             "code": "4001",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "c",
+            "language": "c",
+            "icon": "devicon-c-plain",
             "display": "C (GCC 9.2.1)",
             "method": "add"
         },
         {
             "code": "4002",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "c",
+            "language": "c",
+            "icon": "devicon-c-plain",
             "display": "C (Clang 10.0.0)",
             "method": "add"
         },
         {
             "code": "4003",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "c",
+            "language": "cpp",
+            "icon": "devicon-cpp-plain",
             "display": "C++ (GCC 9.2.1)",
             "method": "add"
         },
         {
             "code": "4004",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "c",
+            "language": "cpp",
+            "icon": "devicon-cpp-plain",
             "display": "C++ (Clang 10.0.0)",
             "method": "add"
         },
         {
             "code": "4005",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "java",
+            "language": "java",
+            "icon": "devicon-java-plain",
             "display": "Java (OpenJDK 11.0.6)",
             "method": "add"
         },
         {
             "code": "4006",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "python",
+            "language": "python",
+            "icon": "devicon-python-plain",
             "display": "Python (3.8.2)",
             "method": "add"
         },
         {
             "code": "4007",
-            "compability": "",
-            "language": "",
+            "compability": "shellscript",
+            "language": "shellscript",
             "icon": "",
             "display": "Bash (5.0.11)",
             "method": "add"
@@ -66,72 +66,72 @@
         },
         {
             "code": "4009",
-            "compability": "",
-            "language": "",
+            "compability": "awk",
+            "language": "awk",
             "icon": "",
             "display": "Awk (GNU Awk 4.1.4)",
             "method": "add"
         },
         {
             "code": "4010",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "c",
+            "language": "csharp",
+            "icon": "devicon-csharp-plain",
             "display": "C# (.NET Core 3.1.201)",
             "method": "add"
         },
         {
             "code": "4011",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "c",
+            "language": "csharp",
+            "icon": "devicon-csharp-plain",
             "display": "C# (Mono-mcs 6.8.0.105)",
             "method": "add"
         },
         {
             "code": "4012",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "c",
+            "language": "csharp",
+            "icon": "devicon-csharp-plain",
             "display": "C# (Mono-csc 3.5.0)",
             "method": "add"
         },
         {
             "code": "4013",
-            "compability": "",
-            "language": "",
+            "compability": "lisp",
+            "language": "clojure",
             "icon": "",
             "display": "Clojure (1.10.1.536)",
             "method": "add"
         },
         {
             "code": "4014",
-            "compability": "",
-            "language": "",
+            "compability": "crystal",
+            "language": "crystal",
             "icon": "",
             "display": "Crystal (0.33.0)",
             "method": "add"
         },
         {
             "code": "4015",
-            "compability": "",
-            "language": "",
+            "compability": "d",
+            "language": "d",
             "icon": "",
             "display": "D (DMD 2.091.0)",
             "method": "add"
         },
         {
             "code": "4016",
-            "compability": "",
-            "language": "",
+            "compability": "d",
+            "language": "d",
             "icon": "",
             "display": "D (GDC 9.2.1)",
             "method": "add"
         },
         {
             "code": "4017",
-            "compability": "",
-            "language": "",
+            "compability": "d",
+            "language": "d",
             "icon": "",
             "display": "D (LDC 1.20.1)",
             "method": "add"
@@ -170,16 +170,16 @@
         },
         {
             "code": "4022",
-            "compability": "",
-            "language": "",
+            "compability": "ml",
+            "language": "fsharp",
             "icon": "",
             "display": "F# (.NET Core 3.1.201)",
             "method": "add"
         },
         {
             "code": "4023",
-            "compability": "",
-            "language": "",
+            "compability": "ml",
+            "language": "fsharp",
             "icon": "",
             "display": "F# (Mono 10.2.3)",
             "method": "add"
@@ -194,24 +194,24 @@
         },
         {
             "code": "4025",
-            "compability": "",
-            "language": "",
+            "compability": "fortran",
+            "language": "fortran",
             "icon": "",
             "display": "Fortran (GNU Fortran 9.2.1)",
             "method": "add"
         },
         {
             "code": "4026",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "go",
+            "language": "go",
+            "icon": "devicon-go-plain",
             "display": "Go (1.14.1)",
             "method": "add"
         },
         {
             "code": "4027",
-            "compability": "",
-            "language": "",
+            "compability": "haskell",
+            "language": "haskell",
             "icon": "",
             "display": "Haskell (GHC 8.8.3)",
             "method": "add"
@@ -234,24 +234,24 @@
         },
         {
             "code": "4030",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "javascript",
+            "language": "javascript",
+            "icon": "devicon-javascript-plain",
             "display": "JavaScript (Node.js 12.16.1)",
             "method": "add"
         },
         {
             "code": "4031",
-            "compability": "",
-            "language": "",
+            "compability": "julia",
+            "language": "julia",
             "icon": "",
             "display": "Julia (1.4.0)",
             "method": "add"
         },
         {
             "code": "4032",
-            "compability": "",
-            "language": "",
+            "compability": "kotlin",
+            "language": "kotlin",
             "icon": "",
             "display": "Kotlin (1.3.71)",
             "method": "add"
@@ -266,72 +266,72 @@
         },
         {
             "code": "4034",
-            "compability": "",
-            "language": "",
+            "compability": "lua",
+            "language": "lua",
             "icon": "",
             "display": "Lua (LuaJIT 2.1.0)",
             "method": "add"
         },
         {
             "code": "4035",
-            "compability": "",
-            "language": "",
+            "compability": "shellscript",
+            "language": "shellscript",
             "icon": "",
             "display": "Dash (0.5.8)",
             "method": "add"
         },
         {
             "code": "4036",
-            "compability": "",
-            "language": "",
+            "compability": "nim",
+            "language": "nim",
             "icon": "",
             "display": "Nim (1.0.6)",
             "method": "add"
         },
         {
             "code": "4037",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "c",
+            "language": "objective-c",
+            "icon": "devicon-c-plain",
             "display": "Objective-C (Clang 10.0.0)",
             "method": "add"
         },
         {
             "code": "4038",
-            "compability": "",
-            "language": "",
+            "compability": "lisp",
+            "language": "lisp",
             "icon": "",
             "display": "Common Lisp (SBCL 2.0.3)",
             "method": "add"
         },
         {
             "code": "4039",
-            "compability": "",
-            "language": "",
+            "compability": "ml",
+            "language": "caml",
             "icon": "",
             "display": "OCaml (4.10.0)",
             "method": "add"
         },
         {
             "code": "4040",
-            "compability": "",
-            "language": "",
+            "compability": "octave",
+            "language": "octave",
             "icon": "",
             "display": "Octave (5.2.0)",
             "method": "add"
         },
         {
             "code": "4041",
-            "compability": "",
-            "language": "",
+            "compability": "pascal",
+            "language": "pascal",
             "icon": "",
             "display": "Pascal (FPC 3.0.4)",
             "method": "add"
         },
         {
             "code": "4042",
-            "compability": "",
-            "language": "",
+            "compability": "perl",
+            "language": "perl",
             "icon": "",
             "display": "Perl (5.26.1)",
             "method": "add"
@@ -346,9 +346,9 @@
         },
         {
             "code": "4044",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "php",
+            "language": "php",
+            "icon": "devicon-php-plain",
             "display": "PHP (7.4.4)",
             "method": "add"
         },
@@ -362,17 +362,17 @@
         },
         {
             "code": "4046",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "python",
+            "language": "python",
+            "icon": "devicon-python-plain",
             "display": "PyPy2 (7.3.0)",
             "method": "add"
         },
         {
             "code": "4047",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "python",
+            "language": "python",
+            "icon": "devicon-python-plain",
             "display": "PyPy3 (7.3.0)",
             "method": "add"
         },
@@ -386,80 +386,80 @@
         },
         {
             "code": "4049",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "ruby",
+            "language": "ruby",
+            "icon": "devicon-ruby-plain",
             "display": "Ruby (2.7.1)",
             "method": "add"
         },
         {
             "code": "4050",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "rust",
+            "language": "rust",
+            "icon": "devicon-devicon-plain",
             "display": "Rust (1.42.0)",
             "method": "add"
         },
         {
             "code": "4051",
-            "compability": "",
-            "language": "",
+            "compability": "java",
+            "language": "scala",
             "icon": "",
             "display": "Scala (2.13.1)",
             "method": "add"
         },
         {
             "code": "4052",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "java",
+            "language": "java",
+            "icon": "devicon-java-plain",
             "display": "Java (OpenJDK 1.8.0)",
             "method": "add"
         },
         {
             "code": "4053",
-            "compability": "",
-            "language": "",
+            "compability": "lisp",
+            "language": "scheme",
             "icon": "",
             "display": "Scheme (Gauche 0.9.9)",
             "method": "add"
         },
         {
             "code": "4054",
-            "compability": "",
-            "language": "",
+            "compability": "ml",
+            "language": "sml",
             "icon": "",
             "display": "Standard ML (MLton 20130715)",
             "method": "add"
         },
         {
             "code": "4055",
-            "compability": "",
-            "language": "",
-            "icon": "",
+            "compability": "swift",
+            "language": "swift",
+            "icon": "devicon-swift-plain",
             "display": "Swift (5.2.1)",
             "method": "add"
         },
         {
             "code": "4056",
-            "compability": "",
-            "language": "",
+            "compability": "plaintext",
+            "language": "plaintext",
             "icon": "",
             "display": "Text (cat 8.28)",
             "method": "add"
         },
         {
             "code": "4057",
-            "compability": "",
-            "language": "",
+            "compability": "typescript",
+            "language": "typescript",
             "icon": "",
             "display": "TypeScript (3.8)",
             "method": "add"
         },
         {
             "code": "4058",
-            "compability": "",
-            "language": "",
+            "compability": "basic",
+            "language": "basic",
             "icon": "",
             "display": "Visual Basic (.NET Core 3.1.101)",
             "method": "add"
@@ -490,8 +490,8 @@
         },
         {
             "code": "4062",
-            "compability": "",
-            "language": "",
+            "compability": "brainfuck",
+            "language": "brainfuck",
             "icon": "",
             "display": "Brainfuck (bf 20041219)",
             "method": "add"
@@ -506,8 +506,8 @@
         },
         {
             "code": "4064",
-            "compability": "",
-            "language": "",
+            "compability": "unlambda",
+            "language": "unlambda",
             "icon": "",
             "display": "Unlambda (2.0.0)",
             "method": "add"
@@ -522,8 +522,8 @@
         },
         {
             "code": "4066",
-            "compability": "",
-            "language": "",
+            "compability": "sed",
+            "language": "sed",
             "icon": "",
             "display": "Sed (4.4)",
             "method": "add"
