@@ -60,7 +60,7 @@
             "code": "4008",
             "compability": "bc",
             "language": "bc",
-            "icon": "",
+            "icon": "langicon-calculator",
             "display": "bc (1.07.1)",
             "method": "add"
         },
@@ -68,7 +68,7 @@
             "code": "4009",
             "compability": "awk",
             "language": "awk",
-            "icon": "",
+            "icon": "langicon-awk",
             "display": "Awk (GNU Awk 4.1.4)",
             "method": "add"
         },
@@ -116,7 +116,7 @@
             "code": "4015",
             "compability": "d",
             "language": "d",
-            "icon": "",
+            "icon": "langicon-dlang",
             "display": "D (DMD 2.091.0)",
             "method": "add"
         },
@@ -124,7 +124,7 @@
             "code": "4016",
             "compability": "d",
             "language": "d",
-            "icon": "",
+            "icon": "langicon-dlang",
             "display": "D (GDC 9.2.1)",
             "method": "add"
         },
@@ -132,7 +132,7 @@
             "code": "4017",
             "compability": "d",
             "language": "d",
-            "icon": "",
+            "icon": "langicon-dlang",
             "display": "D (LDC 1.20.1)",
             "method": "add"
         },
@@ -148,7 +148,7 @@
             "code": "4019",
             "compability": "dc",
             "language": "dc",
-            "icon": "",
+            "icon": "langicon-calculator",
             "display": "dc (1.4.1)",
             "method": "add"
         },
@@ -188,7 +188,7 @@
             "code": "4024",
             "compability": "forth",
             "language": "forth",
-            "icon": "",
+            "icon": "langicon-forth",
             "display": "Forth (gforth 0.7.3)",
             "method": "add"
         },
@@ -196,7 +196,7 @@
             "code": "4025",
             "compability": "fortran",
             "language": "fortran",
-            "icon": "",
+            "icon": "langicon-fortran",
             "display": "Fortran (GNU Fortran 9.2.1)",
             "method": "add"
         },
@@ -284,7 +284,7 @@
             "code": "4036",
             "compability": "nim",
             "language": "nim",
-            "icon": "",
+            "icon": "langicon-nim",
             "display": "Nim (1.0.6)",
             "method": "add"
         },
@@ -300,7 +300,7 @@
             "code": "4038",
             "compability": "lisp",
             "language": "lisp",
-            "icon": "",
+            "icon": "langicon-commonlisp",
             "display": "Common Lisp (SBCL 2.0.3)",
             "method": "add"
         },
@@ -316,7 +316,7 @@
             "code": "4040",
             "compability": "octave",
             "language": "octave",
-            "icon": "",
+            "icon": "langicon-octave",
             "display": "Octave (5.2.0)",
             "method": "add"
         },
@@ -324,7 +324,7 @@
             "code": "4041",
             "compability": "pascal",
             "language": "pascal",
-            "icon": "",
+            "icon": "langicon-delphi",
             "display": "Pascal (FPC 3.0.4)",
             "method": "add"
         },
@@ -340,7 +340,7 @@
             "code": "4043",
             "compability": "perl",
             "language": "perl",
-            "icon": "",
+            "icon": "devicon-perl-plain",
             "display": "Raku (Rakudo 2020.02.1)",
             "method": "add"
         },
@@ -356,7 +356,7 @@
             "code": "4045",
             "compability": "prolog",
             "language": "prolog",
-            "icon": "",
+            "icon": "langicon-prolog",
             "display": "Prolog (SWI-Prolog 8.0.3)",
             "method": "add"
         },
@@ -380,7 +380,7 @@
             "code": "4048",
             "compability": "lisp",
             "language": "lisp",
-            "icon": "",
+            "icon": "langicon-lisp",
             "display": "Racket (7.6)",
             "method": "add"
         },
@@ -420,7 +420,7 @@
             "code": "4053",
             "compability": "lisp",
             "language": "scheme",
-            "icon": "",
+            "icon": "langicon-scheme",
             "display": "Scheme (Gauche 0.9.9)",
             "method": "add"
         },
@@ -428,7 +428,7 @@
             "code": "4054",
             "compability": "ml",
             "language": "sml",
-            "icon": "",
+            "icon": "langicon-sml",
             "display": "Standard ML (MLton 20130715)",
             "method": "add"
         },
@@ -452,15 +452,15 @@
             "code": "4057",
             "compability": "typescript",
             "language": "typescript",
-            "icon": "",
+            "icon": "devicon-typescript-plain",
             "display": "TypeScript (3.8)",
             "method": "add"
         },
         {
             "code": "4058",
-            "compability": "basic",
-            "language": "basic",
-            "icon": "",
+            "compability": "vb",
+            "language": "vb",
+            "icon": "langicon-basic",
             "display": "Visual Basic (.NET Core 3.1.101)",
             "method": "add"
         },
@@ -476,7 +476,7 @@
             "code": "4060",
             "compability": "cobol",
             "language": "cobol",
-            "icon": "",
+            "icon": "langicon-cobol",
             "display": "COBOL - Fixed (OpenCOBOL 1.1.0)",
             "method": "add"
         },
@@ -484,7 +484,7 @@
             "code": "4061",
             "compability": "cobol",
             "language": "cobol",
-            "icon": "",
+            "icon": "langicon-cobol",
             "display": "COBOL - Free (OpenCOBOL 1.1.0)",
             "method": "add"
         },
@@ -492,7 +492,7 @@
             "code": "4062",
             "compability": "brainfuck",
             "language": "brainfuck",
-            "icon": "",
+            "icon": "langicon-brainfuck",
             "display": "Brainfuck (bf 20041219)",
             "method": "add"
         },
@@ -500,7 +500,7 @@
             "code": "4063",
             "compability": "ada",
             "language": "ada",
-            "icon": "",
+            "icon": "langicon-ada",
             "display": "Ada2012 (GNAT 9.2.1)",
             "method": "add"
         },
@@ -508,7 +508,7 @@
             "code": "4064",
             "compability": "unlambda",
             "language": "unlambda",
-            "icon": "",
+            "icon": "langicon-unlambda",
             "display": "Unlambda (2.0.0)",
             "method": "add"
         },
@@ -516,7 +516,7 @@
             "code": "4065",
             "compability": "python",
             "language": "python",
-            "icon": "",
+            "icon": "langicon-cython",
             "display": "Cython (0.29.16)",
             "method": "add"
         },
@@ -524,7 +524,7 @@
             "code": "4066",
             "compability": "sed",
             "language": "sed",
-            "icon": "",
+            "icon": "langicon-sed",
             "display": "Sed (4.4)",
             "method": "add"
         },
