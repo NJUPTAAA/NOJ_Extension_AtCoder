@@ -1,10 +1,12 @@
 {
-    "modifications":[{
-        "code":"1001",
-        "compability":"c",
-        "language":"cpp",
-        "icon":"devicon-cplusplus-plain",
-        "display":"IOI-Style C++ (GCC 5.4.1)",
-        "method":"add"
-    }]
+    "modifications": [
+        {
+            "code": "1001",
+            "compability": "c",
+            "language": "cpp",
+            "icon": "devicon-cplusplus-plain",
+            "display": "IOI-Style C++ (GCC 5.4.1)",
+            "method": "add"
+        }
+    ]
 }
